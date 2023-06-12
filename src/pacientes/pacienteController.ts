@@ -8,22 +8,14 @@ import { mapeiaPlano } from '../utils/planoSaudeUtils.js'
 import { Consulta } from '../consultas/consultaEntity.js'
 import { AppError, Status } from '../error/ErrorHandler.js'
 import { encryptPassword } from '../utils/senhaUtils.js'
-import { schemaCriarPaciente } from './pacienteYupSchemas.js'
-import { sanitizacaoPaciente } from './pacienteSanitization.js'
-// import { getManager } from 'typeorm'
-// import { getConnection } from 'typeorm';
-// import { getRepository } from 'typeorm';
 
-export const consultaVulneravel = async (
+export const consultaPorPaciente = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   const { userInput } = req.query;
   const query = `SELECT * FROM paciente WHERE nome = '${userInput}'`;
-  console.log(userInput)
-  console.log(query)
   try {
-    // const pacienteRepository = getRepository(Paciente);
     const listaPacientes = await AppDataSource.manager.query(query);
     if (listaPacientes.length === 0) {
       res.status(404).json('Paciente não encontrado!');
@@ -43,9 +35,6 @@ export const criarPaciente = async (
 ): Promise<void> => {
   try {
     const pacienteData = req.body
-    const pacienteSanitizado = sanitizacaoPaciente(pacienteData)
-    console.log(pacienteSanitizado)
-    await schemaCriarPaciente.validate(pacienteSanitizado)
     let {
       cpf,
       nome,
