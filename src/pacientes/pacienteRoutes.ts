@@ -21,7 +21,7 @@ const upload = multer(multerConfig)
 export const pacienteRouter = Router()
 
 pacienteRouter.get('/', exibeTodosPacientes)
-pacienteRouter.get('/consulta-vulneravel', consultaPorPaciente)
+pacienteRouter.get('/consulta-por-paciente', consultaPorPaciente)
 pacienteRouter.post('/', criarPaciente)
 pacienteRouter.get('/:id', lerPaciente)
 pacienteRouter.get('/:id/consultas', listaConsultasPaciente)
