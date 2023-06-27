@@ -10,12 +10,14 @@ enum PlanosSaude {
   'Outro',
 }
 
-function mapeiaPlano (planosSaude: any[]): string[] {
+function mapeiaPlano (planosSaude: string[]): string[] {
   if (planosSaude.length === 0) {
     throw new AppError('A lista de planos de saúde não pode ser vazia!')
   }
 
-  return planosSaude.map((plano) => {
+  const numerosPlanosSaude = planosSaude.map((plano) => parseInt(plano, 10));
+
+  return numerosPlanosSaude.map((plano) => {
     if (PlanosSaude[plano] === undefined) {
       throw new AppError(`O plano ${plano} não existe!`)
     }

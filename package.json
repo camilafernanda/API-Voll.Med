@@ -43,6 +43,7 @@
       "redis": "^4.6.6",
       "reflect-metadata": "^0.1.13",
       "sanitize": "^2.1.2",
+      "secure-password-validator": "^1.0.2",
       "sqlite3": "^5.1.6",
       "streamifier": "^0.1.1",
       "svg-parser": "^2.0.4",
@@ -50,7 +51,7 @@
       "typeorm": "^0.3.11",
       "xml2js": "^0.6.0",
       "xmldom": "^0.6.0",
-      "yup": "^1.1.1"
+      "yup": "^1.2.0"
    },
    "devDependencies": {
       "@types/cors": "^2.8.13",

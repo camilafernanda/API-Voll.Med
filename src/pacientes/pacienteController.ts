@@ -8,6 +8,9 @@ import { mapeiaPlano } from '../utils/planoSaudeUtils.js'
 import { Consulta } from '../consultas/consultaEntity.js'
 import { AppError, Status } from '../error/ErrorHandler.js'
 import { encryptPassword } from '../utils/senhaUtils.js'
+// import { sanitizacaoPaciente } from './pacienteSanitizacao.js';
+// import { string } from 'yup';
+import { pacienteSchema } from './pacienteYupSchemas.js';
 
 export const consultaPorPaciente = async (
   req: Request,
@@ -35,6 +38,16 @@ export const criarPaciente = async (
 ): Promise<void> => {
   try {
     const pacienteData = req.body
+
+    const sanitizaNome = (value) => value.replace(/[^a-zA-Z-à-ú\s'-]/g, '');
+
+    let pacienteSanitizado = {
+      ...pacienteData,
+      nome: sanitizaNome(pacienteData.nome),
+    }
+
+    await pacienteSchema.validate(pacienteData)
+
     let {
       cpf,
       nome,
@@ -47,7 +60,7 @@ export const criarPaciente = async (
       planosSaude,
       imagem,
       historico
-    } = pacienteData
+    } = pacienteSanitizado;
 
     if (!CPFValido(cpf)) {
       throw new AppError('CPF Inválido!')
@@ -60,9 +73,11 @@ export const criarPaciente = async (
       res.status(409).json({ message: 'Já existe um paciente com esse CPF!' })
     }
 
+    //let planosSaude: string[] | undefined = pacienteSanitizado.planosSaude;
+
     if (possuiPlanoSaude === true && planosSaude !== undefined) {
       // transforma array de numbers em array de strings com os nomes dos planos definidos no enum correspondente
-      planosSaude = mapeiaPlano(planosSaude)
+      planosSaude = mapeiaPlano(planosSaude);
     }
 
     const senhaCriptografada = encryptPassword(senha)
@@ -93,7 +108,7 @@ export const criarPaciente = async (
     }
 
     await AppDataSource.manager.save(Paciente, paciente)
-
+    
     res.status(202).json(paciente)
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -212,6 +227,7 @@ export const atualizarPaciente = async (
       paciente.planosSaude = planosSaude
       paciente.estaAtivo = estaAtivo
       paciente.imagem = imagem
+      //paciente.imagemUrl = imagemUrl
       paciente.historico = historico
 
       await AppDataSource.manager.save(Paciente, paciente)

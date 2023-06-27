@@ -52,7 +52,10 @@ export class Paciente implements IAutenticavel {
     possuiPlanoSaude: boolean
 
   @Column({ type: 'simple-array', nullable: true })
-    planosSaude: string
+    planosSaude: string[]
+
+  // @Column('varchar')
+  //   imagemUrl: string
 
   @Column({ type: 'simple-array', nullable: true })
     historico: string
@@ -82,6 +85,7 @@ export class Paciente implements IAutenticavel {
     this.telefone = telefone
     this.planosSaude = planosSaude
     this.imagem = imagem
+    // this.imagemUrl = imagemUrl
     this.historico = historico
     this.role = Role.paciente
   }
