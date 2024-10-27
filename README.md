@@ -20,4 +20,4 @@ Depois de instalar todas as dependências execute o comando
 npm start
 ```
 
-Assim o seu projeto será compilado e o servidor será esecutado na url `localhost:3000`
+Assim o seu projeto será compilado e o servidor será executado na url `localhost:3000`
