@@ -4,7 +4,7 @@
 
 # Iniciando o projeto
 
-Depois de baixar o código para a sua máquina, execute o comando
+Depois de baixar o código para a sua máquina, execute o comando:
 
 ```
 npm install
